@@ -1,16 +1,21 @@
 'use strict' // faz vc lembrar de colocar virgula ou ate da erro caso não colocar
 
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 const router = express.Router();
 
-const route = router.get('/', (req, res, next) => {
-    res.status(200).send({
-        title: "Node Store API",
-        version: "0.0.1."
-    });
-});
-app.use('/', route);
+//Carrega as rotas
+const indexRoute = require('./routes/index-route.js');
+const productRoute = require('./routes/product-route.js');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+
+app.use('/', indexRoute);
+app.use('/products', productRoute);
 
 module.exports = app;
